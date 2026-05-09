@@ -9,25 +9,25 @@ const Charts = {
     /** Store chart instances for cleanup */
     instances: {},
 
-    /** Shared color palette */
+    /** Shared color palette — refined blue on warm grey, mirrors CSS tokens */
     colors: {
-        primary: '#6366f1',
-        primaryLight: 'rgba(99, 102, 241, 0.15)',
-        secondary: '#8b5cf6',
-        secondaryLight: 'rgba(139, 92, 246, 0.15)',
-        success: '#22c55e',
-        successLight: 'rgba(34, 197, 94, 0.15)',
-        warning: '#f59e0b',
-        warningLight: 'rgba(245, 158, 11, 0.15)',
-        danger: '#ef4444',
-        dangerLight: 'rgba(239, 68, 68, 0.15)',
-        info: '#3b82f6',
-        infoLight: 'rgba(59, 130, 246, 0.15)',
-        cyan: '#06b6d4',
-        cyanLight: 'rgba(6, 182, 212, 0.15)',
-        grid: 'rgba(255, 255, 255, 0.05)',
-        gridLabel: 'rgba(255, 255, 255, 0.4)',
-        tooltip: 'rgba(17, 18, 32, 0.95)',
+        primary: '#60a5fa',
+        primaryLight: 'rgba(96, 165, 250, 0.14)',
+        secondary: '#2563eb',
+        secondaryLight: 'rgba(37, 99, 235, 0.14)',
+        success: '#34d399',
+        successLight: 'rgba(52, 211, 153, 0.14)',
+        warning: '#fbbf24',
+        warningLight: 'rgba(251, 191, 36, 0.14)',
+        danger: '#f87171',
+        dangerLight: 'rgba(248, 113, 113, 0.14)',
+        info: '#60a5fa',
+        infoLight: 'rgba(96, 165, 250, 0.14)',
+        cyan: '#22d3ee',
+        cyanLight: 'rgba(34, 211, 238, 0.14)',
+        grid: 'rgba(255, 255, 255, 0.04)',
+        gridLabel: 'rgba(255, 255, 255, 0.45)',
+        tooltip: 'rgba(22, 22, 25, 0.96)',
     },
 
     /**
@@ -47,16 +47,16 @@ const Charts = {
                 title: {
                     display: !!title,
                     text: title,
-                    color: '#f0f0f5',
-                    font: { size: 14, weight: '600', family: 'Inter' },
+                    color: '#f4f4f5',
+                    font: { size: 14, weight: '600', family: 'Space Grotesk' },
                     padding: { bottom: 16 },
                 },
                 legend: {
                     position: 'top',
                     align: 'end',
                     labels: {
-                        color: '#9ca3af',
-                        font: { size: 12, family: 'Inter' },
+                        color: '#a1a1aa',
+                        font: { size: 12, family: 'Space Grotesk' },
                         usePointStyle: true,
                         pointStyle: 'circle',
                         padding: 16,
@@ -64,14 +64,14 @@ const Charts = {
                 },
                 tooltip: {
                     backgroundColor: this.colors.tooltip,
-                    titleColor: '#f0f0f5',
-                    bodyColor: '#9ca3af',
-                    borderColor: 'rgba(255,255,255,0.1)',
+                    titleColor: '#f4f4f5',
+                    bodyColor: '#a1a1aa',
+                    borderColor: 'rgba(255,255,255,0.08)',
                     borderWidth: 1,
                     padding: 12,
-                    cornerRadius: 8,
-                    titleFont: { size: 13, weight: '600', family: 'Inter' },
-                    bodyFont: { size: 12, family: 'Inter' },
+                    cornerRadius: 6,
+                    titleFont: { size: 13, weight: '600', family: 'Space Grotesk' },
+                    bodyFont: { size: 12, family: 'Space Mono' },
                     displayColors: true,
                     callbacks: {
                         label: function(context) {
@@ -87,10 +87,10 @@ const Charts = {
             },
             scales: {
                 x: {
-                    grid: { color: this.colors.grid, drawBorder: false },
+                    grid: { display: false, drawBorder: false },
                     ticks: {
                         color: this.colors.gridLabel,
-                        font: { size: 11, family: 'Inter' },
+                        font: { size: 11, family: 'Space Mono' },
                         maxRotation: 45,
                         maxTicksLimit: 15,
                     },
@@ -99,7 +99,7 @@ const Charts = {
                     grid: { color: this.colors.grid, drawBorder: false },
                     ticks: {
                         color: this.colors.gridLabel,
-                        font: { size: 11, family: 'Inter' },
+                        font: { size: 11, family: 'Space Mono' },
                         callback: function(value) {
                             return value.toLocaleString(undefined, { maximumFractionDigits: 0 });
                         },

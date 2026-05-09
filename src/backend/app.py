@@ -20,6 +20,7 @@ from src.backend.routes.anomaly import anomaly_bp
 from src.backend.routes.scenario import scenario_bp
 from src.backend.routes.dataset import dataset_bp
 from src.backend.routes.extras import extras_bp
+from src.backend.routes.news_agents import news_agents_bp
 from src.backend.services.explainer import configure_gemini
 
 
@@ -57,6 +58,7 @@ def create_app() -> Flask:
     app.register_blueprint(scenario_bp)
     app.register_blueprint(dataset_bp)
     app.register_blueprint(extras_bp)
+    app.register_blueprint(news_agents_bp)
 
     # Serve frontend
     @app.route("/")

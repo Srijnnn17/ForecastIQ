@@ -63,7 +63,8 @@ def detect():
         )
 
         # Generate AI explanation
-        explanation = explain_anomalies(result)
+        language = params.get("language", "English")
+        explanation = explain_anomalies(result, language)
 
         response_data = {
             "historical": {

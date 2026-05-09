@@ -23,15 +23,45 @@ const App = {
         ScenarioTab.init();
         BacktestModule.init();
         ModelRace.init();
+        if (typeof initNewsAgents === 'function') initNewsAgents();
 
         // Export buttons
         document.getElementById('btn-export-anomalies')?.addEventListener('click', () => {
             ExportModule.downloadAnomalyCSV(AnomalyTab.lastData);
         });
+        document.getElementById('btn-export-forecast')?.addEventListener('click', () => {
+            ExportModule.downloadForecastCSV(ExportModule.lastForecastData);
+        });
+
+        // Threshold banner dismiss
+        document.getElementById('threshold-dismiss')?.addEventListener('click', () => {
+            document.getElementById('threshold-banner').style.display = 'none';
+        });
 
         // Dataset change handler
         document.getElementById('dataset-select').addEventListener('change', (e) => {
             this.onDatasetChange(e.target.value);
+        });
+
+        // Backtest / Model Race architecture modal
+        const btArchModal = document.getElementById('backtest-arch-modal');
+        const openBtArch = (e) => {
+            if (btArchModal) {
+                btArchModal.style.display = 'flex';
+                requestAnimationFrame(() => btArchModal.classList.add('modal-visible'));
+            }
+        };
+        document.getElementById('btn-backtest-arch')?.addEventListener('click', openBtArch);
+        document.getElementById('btn-model-arch')?.addEventListener('click', openBtArch);
+        document.getElementById('btn-btarch-close')?.addEventListener('click', () => {
+            btArchModal?.classList.remove('modal-visible');
+            setTimeout(() => { if (btArchModal) btArchModal.style.display = 'none'; }, 300);
+        });
+        btArchModal?.addEventListener('click', (e) => {
+            if (e.target === btArchModal) {
+                btArchModal.classList.remove('modal-visible');
+                setTimeout(() => { btArchModal.style.display = 'none'; }, 300);
+            }
         });
     },
 
@@ -126,7 +156,7 @@ const App = {
 
         try {
             const response = await API.uploadDataset(file);
-            messageEl.textContent = `✓ ${file.name} uploaded (${response.data.rows} rows)`;
+            messageEl.textContent = `${file.name} uploaded (${response.data.rows} rows)`;
             this.showToast(`Dataset "${file.name}" uploaded successfully`, 'success');
 
             // Refresh dataset list
@@ -143,7 +173,7 @@ const App = {
                 statusEl.style.display = 'none';
             }, 1500);
         } catch (error) {
-            messageEl.textContent = `✗ Upload failed: ${error.message}`;
+            messageEl.textContent = `Upload failed: ${error.message}`;
             this.showToast(error.message, 'error');
         }
     },
@@ -229,10 +259,10 @@ const App = {
                 });
             }
 
-            document.getElementById('data-points-badge').textContent = `${summary.rows} data points`;
+            document.getElementById('data-points-badge').textContent = `${summary.rows} records`;
             if (summary.date_range) {
                 document.getElementById('date-range-badge').textContent =
-                    `${summary.date_range.start} → ${summary.date_range.end}`;
+                    `${summary.date_range.start} to ${summary.date_range.end}`;
             }
 
             // Load data quality asynchronously (non-blocking)
@@ -242,6 +272,12 @@ const App = {
             // Show backtest section now that data is loaded
             const btSection = document.getElementById('backtest-section');
             if (btSection) btSection.style.display = 'block';
+
+            // Propagate dataset to news agent panel
+            if (typeof setNewsAgentContext === 'function') {
+                const col = columnSelect.value || '';
+                setNewsAgentContext(null, datasetName, col ? [col] : []);
+            }
 
         } catch (error) {
             console.error('Failed to load dataset summary:', error);

@@ -98,7 +98,8 @@ def compare():
         result["historical_dates"] = dates.dt.strftime("%Y-%m-%d").tolist()
 
         # AI explanation
-        explanation = explain_scenario_comparison(result)
+        language = params.get("language", "English")
+        explanation = explain_scenario_comparison(result, language)
         result["explanation"] = explanation
 
         result["dataset_info"] = {

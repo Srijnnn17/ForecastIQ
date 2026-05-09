@@ -35,38 +35,40 @@ def configure_gemini(api_key: str = None):
         genai.configure(api_key=key)
 
 
-def explain_forecast(forecast_result: Dict, horizon: int = 4) -> str:
+def explain_forecast(forecast_result: Dict, horizon: int = 4, language: str = "English") -> str:
     """
     Generate a natural-language explanation of a forecast result.
 
     Args:
         forecast_result: Dictionary from the forecaster service.
         horizon: Number of periods forecasted.
+        language: Language for the AI explanation (e.g. 'French', 'German').
 
     Returns:
         Human-readable explanation string.
     """
-    prompt = _build_forecast_prompt(forecast_result, horizon)
+    prompt = _build_forecast_prompt(forecast_result, horizon, language)
 
     explanation = _call_gemini(prompt)
     if explanation:
         return explanation
 
-    # Fallback to template-based explanation
+    # Fallback to template-based explanation (English only)
     return _template_forecast_explanation(forecast_result, horizon)
 
 
-def explain_anomalies(anomaly_result: Dict) -> str:
+def explain_anomalies(anomaly_result: Dict, language: str = "English") -> str:
     """
     Generate a natural-language explanation of detected anomalies.
 
     Args:
         anomaly_result: Dictionary from the anomaly detector.
+        language: Language for the AI explanation (e.g. 'Spanish', 'Welsh').
 
     Returns:
         Human-readable explanation of the anomalies.
     """
-    prompt = _build_anomaly_prompt(anomaly_result)
+    prompt = _build_anomaly_prompt(anomaly_result, language)
 
     explanation = _call_gemini(prompt)
     if explanation:
@@ -75,17 +77,18 @@ def explain_anomalies(anomaly_result: Dict) -> str:
     return _template_anomaly_explanation(anomaly_result)
 
 
-def explain_scenario_comparison(comparison_result: Dict) -> str:
+def explain_scenario_comparison(comparison_result: Dict, language: str = "English") -> str:
     """
     Generate a natural-language comparison of forecasting scenarios.
 
     Args:
         comparison_result: Dictionary from the scenario engine.
+        language: Language for the AI explanation (e.g. 'French', 'German').
 
     Returns:
         Human-readable scenario comparison.
     """
-    prompt = _build_scenario_prompt(comparison_result)
+    prompt = _build_scenario_prompt(comparison_result, language)
 
     explanation = _call_gemini(prompt)
     if explanation:
@@ -96,27 +99,38 @@ def explain_scenario_comparison(comparison_result: Dict) -> str:
 
 def _call_gemini(prompt: str) -> Optional[str]:
     """
-    Call the Gemini API to generate text.
+    Call the Gemini API using gemini-2.5-flash — the current stable,
+    non-deprecated model per https://ai.google.dev/gemini-api/docs/models.
 
-    Args:
-        prompt: The prompt to send to Gemini.
-
-    Returns:
-        Generated text, or None if the API call fails.
+    On a transient 429 (rate-limit), waits and retries once. If the quota
+    is genuinely exhausted the template fallback is used instead.
     """
     if not GEMINI_AVAILABLE or not os.getenv("GEMINI_API_KEY"):
         return None
 
-    try:
-        model = genai.GenerativeModel("gemini-2.5-flash")
-        response = model.generate_content(prompt)
-        return response.text.strip()
-    except Exception as e:
-        print(f"Gemini API error: {e}")
-        return None
+    import time
+
+    model = genai.GenerativeModel("gemini-2.5-flash")
+
+    for attempt in range(2):   # 1 attempt + 1 retry
+        try:
+            response = model.generate_content(prompt)
+            return response.text.strip()
+        except Exception as e:
+            err = str(e)
+            is_quota = ("429" in err or "quota" in err.lower() or
+                        "rate" in err.lower() or "exhausted" in err.lower())
+            if is_quota and attempt == 0:
+                print("Gemini rate-limit hit, waiting 15 s before retry…")
+                time.sleep(15)
+                continue
+            print(f"Gemini API error: {e}")
+            return None
+
+    return None
 
 
-def _build_forecast_prompt(result: Dict, horizon: int) -> str:
+def _build_forecast_prompt(result: Dict, horizon: int, language: str = "English") -> str:
     """Build a prompt for forecast explanation."""
     forecast = result.get("forecast", [])
     lower = result.get("lower_bound", [])
@@ -125,6 +139,7 @@ def _build_forecast_prompt(result: Dict, horizon: int) -> str:
 
     return f"""You are a data analyst explaining a time series forecast to a non-technical business user.
 Be concise (3-5 sentences max). Use simple language. Include specific numbers.
+IMPORTANT: You MUST respond entirely in {language}. Do not mix languages.
 
 Forecast results for the next {horizon} periods:
 - Central estimates: {[round(v, 1) for v in forecast]}
@@ -137,7 +152,7 @@ Explain what the forecast shows, the level of uncertainty, and any trend.
 Do NOT use technical jargon. Write as if explaining to a manager."""
 
 
-def _build_anomaly_prompt(result: Dict) -> str:
+def _build_anomaly_prompt(result: Dict, language: str = "English") -> str:
     """Build a prompt for anomaly explanation."""
     anomalies = result.get("anomalies", [])
     summary_data = result.get("summary", {})
@@ -152,6 +167,7 @@ def _build_anomaly_prompt(result: Dict) -> str:
 
     return f"""You are a data analyst explaining anomalies found in time series data to a non-technical user.
 Be concise (3-5 sentences). Explain what happened, why it matters, and suggest next steps.
+IMPORTANT: You MUST respond entirely in {language}. Do not mix languages.
 
 Anomaly detection summary:
 - Total data points: {summary_data.get('total_points', 'N/A')}
@@ -166,7 +182,7 @@ Explain what these anomalies mean and what the user should investigate.
 Suggest specific next steps. Do NOT use technical jargon."""
 
 
-def _build_scenario_prompt(result: Dict) -> str:
+def _build_scenario_prompt(result: Dict, language: str = "English") -> str:
     """Build a prompt for scenario comparison explanation."""
     comparison = result.get("comparison", {})
     scenarios = comparison.get("scenarios", [])
@@ -180,6 +196,7 @@ def _build_scenario_prompt(result: Dict) -> str:
 
     return f"""You are a data analyst explaining scenario forecasting results to a non-technical business user.
 Be concise (3-5 sentences). Compare the scenarios clearly.
+IMPORTANT: You MUST respond entirely in {language}. Do not mix languages.
 
 Baseline forecast total: {comparison.get('baseline_total', 'N/A')}
 

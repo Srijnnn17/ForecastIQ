@@ -1,8 +1,7 @@
 /**
  * Scenario comparison tab logic for ForecastIQ.
- * 
- * Handles the "Compare Plans" use case — testing what-if scenarios
- * with adjustable growth rates, outlier removal, and pattern changes.
+ * Tests what-if scenarios with adjustable growth rates,
+ * outlier removal, and pattern changes.
  */
 
 const ScenarioTab = {
@@ -241,8 +240,9 @@ const ScenarioTab = {
         );
         cardsContainer.appendChild(baselineCard);
 
-        // Scenario cards
+        // Scenario cards — skip any named "Baseline" (already rendered above)
         comparison.scenarios.forEach(scenario => {
+            if ((scenario.name || '').toLowerCase() === 'baseline') return;
             const type = scenario.difference_pct > 0 ? 'positive' :
                          scenario.difference_pct < 0 ? 'negative' : 'neutral';
             const card = this._createComparisonCard(

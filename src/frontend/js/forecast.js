@@ -1,8 +1,7 @@
 /**
  * Forecast tab logic for ForecastIQ.
- * 
- * Handles the "Plan Ahead" use case — generating short-term
- * forecasts with confidence intervals and trend decomposition.
+ * Generates short-term forecasts with confidence intervals
+ * and trend decomposition.
  */
 
 const ForecastTab = {
@@ -163,10 +162,10 @@ const ForecastTab = {
                                 borderDash: [4, 4],
                                 label: {
                                     display: true,
-                                    content: 'Forecast →',
+                                    content: 'Forecast start',
                                     position: 'start',
-                                    color: '#9ca3af',
-                                    font: { size: 10, family: 'Inter' },
+                                    color: '#a1a1aa',
+                                    font: { size: 10, family: 'Space Grotesk' },
                                     backgroundColor: 'transparent',
                                 },
                             },
@@ -193,14 +192,17 @@ const ForecastTab = {
         const lastVal = forecast[forecast.length - 1];
         const growthPct = ((lastVal - firstVal) / firstVal * 100);
         const trendEl = document.getElementById('insight-trend');
+        const arrowUp = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>';
+        const arrowDown = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>';
+        const dash = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
         if (growthPct > 1) {
-            trendEl.textContent = `↑ +${growthPct.toFixed(1)}% Growth`;
+            trendEl.innerHTML = `${arrowUp}<span>Growth +${growthPct.toFixed(1)}%</span>`;
             trendEl.style.color = Charts.colors.success;
         } else if (growthPct < -1) {
-            trendEl.textContent = `↓ ${growthPct.toFixed(1)}% Decline`;
+            trendEl.innerHTML = `${arrowDown}<span>Decline ${growthPct.toFixed(1)}%</span>`;
             trendEl.style.color = Charts.colors.danger;
         } else {
-            trendEl.textContent = '→ Stable';
+            trendEl.innerHTML = `${dash}<span>Stable</span>`;
             trendEl.style.color = Charts.colors.info;
         }
 
@@ -226,7 +228,7 @@ const ForecastTab = {
         const baseline = data.baseline_comparison;
         const baselineEl = document.getElementById('insight-baseline');
         if (baseline.model_beats_baseline) {
-            baselineEl.textContent = '✓ Outperforms baseline';
+            baselineEl.textContent = 'Outperforms baseline';
             baselineEl.style.color = Charts.colors.success;
         } else {
             baselineEl.textContent = `Best: ${baseline.best_method}`;

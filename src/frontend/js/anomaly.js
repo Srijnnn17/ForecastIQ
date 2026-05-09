@@ -1,8 +1,7 @@
 /**
  * Anomaly detection tab logic for ForecastIQ.
- * 
- * Handles the "Spot Trouble" use case — detecting unusual
- * spikes and dips with severity scoring and AI explanations.
+ * Detects unusual spikes and dips with severity scoring
+ * and AI-generated explanations.
  */
 
 const AnomalyTab = {
@@ -136,7 +135,7 @@ const AnomalyTab = {
                         label: 'Expected Upper',
                         data: upperExpected,
                         borderColor: 'rgba(255,255,255,0.1)',
-                        backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                        backgroundColor: Charts.colors.primaryLight,
                         borderWidth: 1,
                         borderDash: [4, 4],
                         fill: '+1',
@@ -203,19 +202,41 @@ const AnomalyTab = {
             return;
         }
 
+        const arrowUpRight = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
+        const arrowDownRight = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="7" x2="17" y2="17"/><polyline points="17 7 17 17 7 17"/></svg>';
+
         anomalies.forEach(anomaly => {
             const item = document.createElement('div');
             item.className = `anomaly-item ${anomaly.severity}`;
 
             const deviationColor = anomaly.deviation_pct > 0 ? Charts.colors.danger : Charts.colors.success;
+            const directionIcon = anomaly.direction === 'spike' ? arrowUpRight : arrowDownRight;
+            const directionText = anomaly.direction === 'spike' ? 'Spike' : 'Dip';
 
             item.innerHTML = `
                 <span class="anomaly-item-date">${anomaly.date}</span>
                 <span class="anomaly-item-value">${anomaly.value.toLocaleString()}</span>
                 <span class="anomaly-item-badge ${anomaly.severity}">${anomaly.severity}</span>
-                <span class="anomaly-item-direction">${anomaly.direction === 'spike' ? '↑ Spike' : '↓ Dip'}</span>
+                <span class="anomaly-item-direction">${directionIcon}<span>${directionText}</span></span>
                 <span class="anomaly-item-deviation" style="color: ${deviationColor}">${anomaly.deviation_pct > 0 ? '+' : ''}${anomaly.deviation_pct}%</span>
             `;
+
+            item.title = 'Click to analyse with News Agents';
+            item.style.cursor = 'pointer';
+
+            item.addEventListener('click', () => {
+                if (typeof setNewsAgentContext === 'function') {
+                    const dataset = document.getElementById('dataset-select')?.value || '';
+                    const col     = document.getElementById('column-select')?.value || '';
+                    setNewsAgentContext(
+                        anomaly.date,
+                        dataset,
+                        col ? [col, anomaly.direction === 'spike' ? 'cash surge' : 'cash dip'] : []
+                    );
+                    // Scroll to the panel
+                    document.getElementById('na-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
 
             container.appendChild(item);
         });

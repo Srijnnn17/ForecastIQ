@@ -7,67 +7,62 @@
     <title>ForecastIQ — AI Predictive Forecasting</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.1.0/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0d0e1a">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="theme-color" content="#0e0e11">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Ambient Background -->
-    <div class="ambient-bg">
-        <div class="ambient-orb ambient-orb-1"></div>
-        <div class="ambient-orb ambient-orb-2"></div>
-        <div class="ambient-orb ambient-orb-3"></div>
-    </div>
-
     <!-- Header -->
-    <header class="header" id="main-header">
+    <header class="header">
         <div class="header-inner">
             <div class="logo">
                 <div class="logo-icon">
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                        <defs>
-                            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#6366f1"/>
-                                <stop offset="100%" style="stop-color:#8b5cf6"/>
-                            </linearGradient>
-                        </defs>
-                        <rect width="32" height="32" rx="8" fill="url(#logoGrad)"/>
-                        <path d="M8 22 L12 14 L16 18 L20 10 L24 16" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        <rect width="32" height="32" rx="8" fill="#2563eb"/>
+                        <path d="M8 22 L12 14 L16 18 L20 10 L24 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                         <circle cx="24" cy="16" r="2" fill="white"/>
                     </svg>
                 </div>
                 <h1 class="logo-text">Forecast<span class="logo-accent">IQ</span></h1>
             </div>
-            <nav class="nav-tabs" id="nav-tabs">
-                <button class="nav-tab active" data-tab="forecast" id="nav-forecast">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-tab="forecast">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                        <polyline points="17 6 23 6 23 12"/>
                     </svg>
-                    Plan Ahead
+                    Forecast
                 </button>
-                <button class="nav-tab" data-tab="anomaly" id="nav-anomaly">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                <button class="nav-tab" data-tab="anomaly">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
                     </svg>
-                    Spot Trouble
+                    Anomalies
                 </button>
-                <button class="nav-tab" data-tab="scenario" id="nav-scenario">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                        <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                <button class="nav-tab" data-tab="scenario">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
                     </svg>
-                    Compare Plans
+                    Scenarios
                 </button>
             </nav>
             <div class="header-actions">
+                <!-- Language picker: controls AI explanation language -->
+                <div id="lang-picker-mount"></div>
                 <button class="btn btn-ghost" id="btn-upload" title="Upload Dataset">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
                     Upload
                 </button>
@@ -78,7 +73,7 @@
     <!-- Main Content -->
     <main class="main-content">
         <!-- Dataset Selector Bar -->
-        <div class="dataset-bar" id="dataset-bar">
+        <div class="dataset-bar">
             <div class="dataset-selector">
                 <label for="dataset-select" class="selector-label">Dataset</label>
                 <select id="dataset-select" class="select-input">
@@ -91,22 +86,43 @@
                     <option value="">Select column</option>
                 </select>
             </div>
-            <div class="dataset-info" id="dataset-info">
+            <div class="dataset-info">
                 <span class="info-badge" id="data-points-badge">—</span>
                 <span class="info-badge" id="date-range-badge">—</span>
             </div>
             <!-- Data Health Score card (loads automatically on dataset selection) -->
             <div class="data-health-card" id="data-health-card" style="display:none;">
-                <div class="health-grade-badge" id="health-grade">—</div>
-                <div class="health-details">
-                    <span class="health-score-label">Health <strong id="health-score">—</strong></span>
-                    <span class="health-pill" id="health-points">—</span>
-                    <span class="health-pill">✓ <span id="health-completeness">—</span></span>
-                    <span class="health-pill">∿ <span id="health-seasonality">—</span></span>
+                <div class="health-grade-badge" id="health-grade" style="position:relative;">—
+                    <span class="hq-tooltip" data-tip="Overall data quality grade (A–F) based on completeness, volume and seasonality.">ⓘ</span>
                 </div>
-                <div class="health-model-rec">Recommended: <em id="health-model">—</em></div>
+                <div class="health-details">
+                    <span class="health-score-label">Health <strong id="health-score">—</strong>
+                        <span class="hq-tooltip" data-tip="Composite score out of 100 — higher is better. Drives model confidence.">ⓘ</span>
+                    </span>
+                    <span class="health-pill" id="health-points">—
+                        <span class="hq-tooltip" data-tip="Total number of records in your dataset. More records = better forecasts.">ⓘ</span>
+                    </span>
+                    <span class="health-pill">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span id="health-completeness">—</span>
+                        <span class="hq-tooltip" data-tip="Completeness: % of expected time periods that have a recorded value. 100% = no gaps.">ⓘ</span>
+                    </span>
+                    <span class="health-pill">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                        <span id="health-seasonality">—</span>
+                        <span class="hq-tooltip" data-tip="Seasonality strength: how strongly your data repeats on a cycle. High % = clear seasonal pattern detected.">ⓘ</span>
+                    </span>
+                </div>
+                <div class="health-model-rec">Recommended: <em id="health-model">—</em>
+                    <span class="hq-tooltip" data-tip="The AI Agent's suggested model based on your data's trend, seasonality and volume.">ⓘ</span>
+                </div>
                 <div id="health-warnings"></div>
             </div>
+        </div>
 
         <!-- Tab Panels -->
         <!-- FORECAST TAB -->
@@ -114,17 +130,17 @@
             <div class="panel-header">
                 <div>
                     <h2 class="panel-title">Short-Term Forecast</h2>
-                    <p class="panel-subtitle">Predict the next few weeks with confidence ranges</p>
+                    <p class="panel-subtitle">Predict the next few periods with confidence ranges</p>
                 </div>
                 <div class="panel-controls">
                     <div class="control-group">
                         <label for="forecast-horizon">Horizon</label>
                         <select id="forecast-horizon" class="select-input select-sm">
-                            <option value="2">2 weeks</option>
-                            <option value="4" selected>4 weeks</option>
-                            <option value="6">6 weeks</option>
-                            <option value="8">8 weeks</option>
-                            <option value="12">12 weeks</option>
+                            <option value="2">2 periods</option>
+                            <option value="4" selected>4 periods</option>
+                            <option value="6">6 periods</option>
+                            <option value="8">8 periods</option>
+                            <option value="12">12 periods</option>
                         </select>
                     </div>
                     <div class="control-group">
@@ -142,21 +158,37 @@
                                placeholder="e.g. 8000" title="Warn if lower bound drops below this value">
                     </div>
                     <button class="btn btn-primary" id="btn-forecast">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="5,3 19,12 5,21"/>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="6 3 20 12 6 21 6 3"/>
                         </svg>
                         Generate Forecast
                     </button>
                     <button class="btn btn-ghost" id="btn-model-race" title="Compare ETS vs ARIMA vs Moving Average">
-                        🏆 Model Race
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                            <path d="M4 22h16"/>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                        </svg>
+                        Model Race
+                    </button>
+                    <button class="btn btn-ghost" id="btn-export-forecast" title="Download forecast as CSV">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Export CSV
                     </button>
                 </div>
             </div>
 
-            <div class="chart-container glass-card" id="forecast-chart-container">
+            <div class="chart-container card">
                 <div class="chart-placeholder" id="forecast-placeholder">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
-                        <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                     </svg>
                     <p>Select a dataset and click <strong>Generate Forecast</strong> to begin</p>
                 </div>
@@ -164,40 +196,41 @@
             </div>
 
             <div class="insights-row" id="forecast-insights" style="display:none;">
-                <div class="insight-card glass-card">
-                    <div class="insight-icon insight-icon-trend">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/></svg>
+                <div class="insight-card card">
+                    <div class="insight-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
                     </div>
                     <div class="insight-content">
                         <span class="insight-label">Trend Direction</span>
                         <span class="insight-value" id="insight-trend">—</span>
                     </div>
                 </div>
-                <div class="insight-card glass-card">
-                    <div class="insight-icon insight-icon-range">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"/></svg>
+                <div class="insight-card card">
+                    <div class="insight-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22V8"/>
+                            <path d="M5 12H2a10 10 0 0 0 20 0h-3"/>
+                        </svg>
                     </div>
                     <div class="insight-content">
                         <span class="insight-label">Expected Range</span>
                         <span class="insight-value" id="insight-range">—</span>
                     </div>
                 </div>
-                <div class="insight-card glass-card">
-                    <div class="insight-icon insight-icon-accuracy">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                <div class="insight-card card">
+                    <div class="insight-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="6"/>
+                            <circle cx="12" cy="12" r="2"/>
+                        </svg>
                     </div>
                     <div class="insight-content">
                         <span class="insight-label">Model Accuracy</span>
                         <span class="insight-value" id="insight-accuracy">—</span>
-                    </div>
-                </div>
-                <div class="insight-card glass-card">
-                    <div class="insight-icon insight-icon-baseline">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                    </div>
-                    <div class="insight-content">
-                        <span class="insight-label">vs Baseline</span>
-                        <span class="insight-value" id="insight-baseline">—</span>
                     </div>
                 </div>
             </div>
@@ -205,22 +238,48 @@
             <!-- Threshold early-warning banner -->
             <div class="threshold-banner" id="threshold-banner" style="display:none;" role="alert">
                 <span id="threshold-text"></span>
-                <button onclick="document.getElementById('threshold-banner').style.display='none'" class="banner-close">✕</button>
+                <button class="banner-close" id="threshold-dismiss" aria-label="Dismiss">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18"/>
+                        <path d="m6 6 12 12"/>
+                    </svg>
+                </button>
             </div>
 
-            <div class="explanation-card glass-card" id="forecast-explanation" style="display:none;">
+            <div class="explanation-card card" id="forecast-explanation" style="display:none;">
                 <div class="explanation-header">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    <span>AI Explanation</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
+                    </svg>
+                    <span>AI Analysis</span>
                 </div>
                 <p class="explanation-text" id="forecast-explanation-text"></p>
             </div>
 
             <!-- Model Race Section (hidden until triggered) -->
-            <div class="model-race-section glass-card" id="model-race-section" style="display:none;">
+            <div class="model-race-section card" id="model-race-section" style="display:none;">
                 <div class="section-header">
-                    <h3>🏆 Model Leaderboard</h3>
-                    <p class="panel-subtitle">ETS vs ARIMA(1,1,1) vs Moving Average — ranked by MAPE</p>
+                    <div>
+                        <h3>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                                <path d="M4 22h16"/>
+                                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                            </svg>
+                            Model Leaderboard
+                        </h3>
+                        <p class="panel-subtitle">ETS vs ARIMA(1,1,1) vs Moving Average — ranked by MAPE</p>
+                    </div>
+                    <button class="btn btn-ghost na-arch-btn" id="btn-model-arch" title="View Model Race architecture">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+                        </svg>
+                        Architecture
+                    </button>
                 </div>
                 <div class="chart-container" style="height:240px;">
                     <canvas id="model-race-chart"></canvas>
@@ -231,11 +290,27 @@
                 </table>
             </div>
 
-            <!-- Backtest Section -->
-            <div class="backtest-section glass-card" id="backtest-section" style="display:none;">
+            <!-- Backtest Section (hidden until Run Backtest is clicked) -->
+            <div class="backtest-section card" id="backtest-section" style="display:none;">
                 <div class="section-header">
-                    <h3>🔬 Walk-Forward Backtest</h3>
-                    <p class="panel-subtitle">How accurate would this model have been on held-out data?</p>
+                    <div>
+                        <h3>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/>
+                                <path d="M8.5 2h7"/>
+                                <path d="M7 16h10"/>
+                            </svg>
+                            Walk-Forward Backtest
+                        </h3>
+                        <p class="panel-subtitle">How accurate would this model have been on held-out data?</p>
+                    </div>
+                    <button class="btn btn-ghost na-arch-btn" id="btn-backtest-arch" title="View Backtest architecture">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+                        </svg>
+                        Architecture
+                    </button>
                 </div>
                 <div class="backtest-controls">
                     <label for="backtest-holdout">Hold-out periods</label>
@@ -248,7 +323,10 @@
                     <button class="btn btn-ghost" id="btn-backtest">Run Backtest</button>
                 </div>
                 <div class="chart-container" style="height:240px;">
-                    <canvas id="backtest-chart"></canvas>
+                    <div class="chart-placeholder" id="backtest-placeholder">
+                        <p>Click <strong>Run Backtest</strong> to evaluate the model on the last few periods of historical data.</p>
+                    </div>
+                    <canvas id="backtest-chart" style="display:none;"></canvas>
                 </div>
                 <div class="backtest-metrics">
                     <div class="bt-metric"><span class="bt-val" id="bt-mape">—</span><span class="bt-label">MAPE</span></div>
@@ -279,21 +357,29 @@
                         </select>
                     </div>
                     <button class="btn btn-primary" id="btn-anomaly">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="7"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
                         </svg>
                         Detect Anomalies
                     </button>
                     <button class="btn btn-ghost" id="btn-export-anomalies" title="Download anomalies as CSV">
-                        ⬇ Export CSV
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Export CSV
                     </button>
                 </div>
             </div>
 
-            <div class="chart-container glass-card" id="anomaly-chart-container">
+            <div class="chart-container card">
                 <div class="chart-placeholder" id="anomaly-placeholder">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
-                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
                     </svg>
                     <p>Select a dataset and click <strong>Detect Anomalies</strong> to scan for unusual patterns</p>
                 </div>
@@ -301,7 +387,7 @@
             </div>
 
             <div class="anomaly-results" id="anomaly-results" style="display:none;">
-                <div class="anomaly-summary glass-card" id="anomaly-summary">
+                <div class="anomaly-summary card">
                     <div class="summary-stat">
                         <span class="stat-number" id="stat-total-anomalies">0</span>
                         <span class="stat-label">Anomalies</span>
@@ -320,19 +406,179 @@
                     </div>
                 </div>
 
-                <div class="anomaly-list glass-card" id="anomaly-list">
+                <div class="anomaly-list card">
                     <h3>Detected Anomalies</h3>
                     <div class="anomaly-items" id="anomaly-items"></div>
                 </div>
             </div>
 
-            <div class="explanation-card glass-card" id="anomaly-explanation" style="display:none;">
+            <div class="explanation-card card" id="anomaly-explanation" style="display:none;">
                 <div class="explanation-header">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
+                    </svg>
                     <span>AI Analysis</span>
                 </div>
                 <p class="explanation-text" id="anomaly-explanation-text"></p>
             </div>
+
+            <!-- ════════════════════════════════════════════════════════════ -->
+            <!-- MARKET INTELLIGENCE — News-Driven Multi-Agent Panel          -->
+            <!-- ════════════════════════════════════════════════════════════ -->
+            <div class="na-card card" id="na-panel">
+                <!-- Header -->
+                <div class="na-header">
+                    <div class="na-header-left">
+                        <div class="na-header-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                                <path d="M2 12h20"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="na-title">Market Intelligence</h3>
+                            <p class="na-subtitle">News-driven trend analysis via 3 AI agents</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-ghost na-arch-btn" id="btn-architecture" title="View architecture workflow">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                            <path d="M10 6.5h4"/>
+                            <path d="M17.5 10v4"/>
+                            <path d="M6.5 10v4"/>
+                        </svg>
+                        View Architecture
+                    </button>
+                </div>
+
+                <!-- Keywords + Controls -->
+                <div class="na-controls">
+                    <div class="na-keywords-section">
+                        <label class="na-label">Keywords</label>
+                        <div class="na-tags-row">
+                            <div class="na-keyword-tags" id="na-keyword-tags"></div>
+                            <div class="na-keyword-add-row">
+                                <input type="text" id="na-keyword-input" class="na-keyword-input" placeholder="Add keyword…" maxlength="40">
+                                <button class="btn btn-ghost na-add-btn" id="na-keyword-add">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="na-meta">
+                        <span class="na-label">Anomaly date context</span>
+                        <span class="na-date-badge" id="na-date-context">—</span>
+                    </div>
+                    <button class="btn btn-primary na-analyse-btn" id="btn-news-analyse">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
+                        </svg>
+                        Analyse with News Agents
+                    </button>
+                </div>
+
+                <!-- Headlines fetched -->
+                <div class="na-headlines-box" id="na-headlines-box" style="display:none;">
+                    <p class="na-section-label">📡 Fetched Headlines</p>
+                    <div class="na-headlines-list" id="na-headlines-list"></div>
+                </div>
+
+                <!-- Status log -->
+                <div class="na-status-log" id="na-status-log"></div>
+
+                <!-- Agent Debate Section -->
+                <div id="na-debate-section" style="display:none;">
+                    <p class="na-section-label">🤖 Agent Debate</p>
+                    <div class="na-agents-grid">
+
+                        <!-- Analyst -->
+                        <div class="na-agent-panel" id="na-agent-analyst" data-state="idle">
+                            <div class="na-agent-header">
+                                <div class="na-agent-avatar analyst-avatar">📰</div>
+                                <div class="na-agent-meta">
+                                    <span class="na-agent-name">News Analyst</span>
+                                    <span class="na-agent-role">Senior Financial Journalist</span>
+                                </div>
+                                <div class="na-agent-indicator" id="na-analyst-indicator">
+                                    <span class="na-idle-dot"></span> Waiting
+                                </div>
+                            </div>
+                            <div class="na-agent-body" id="na-analyst-body"></div>
+                        </div>
+
+                        <!-- Skeptic -->
+                        <div class="na-agent-panel" id="na-agent-skeptic" data-state="idle">
+                            <div class="na-agent-header">
+                                <div class="na-agent-avatar skeptic-avatar">🔥</div>
+                                <div class="na-agent-meta">
+                                    <span class="na-agent-name">Devil's Advocate</span>
+                                    <span class="na-agent-role">Risk &amp; Compliance Officer</span>
+                                </div>
+                                <div class="na-agent-indicator" id="na-skeptic-indicator">
+                                    <span class="na-idle-dot"></span> Waiting
+                                </div>
+                            </div>
+                            <div class="na-agent-body" id="na-skeptic-body"></div>
+                        </div>
+
+                        <!-- Synthesizer -->
+                        <div class="na-agent-panel" id="na-agent-synthesizer" data-state="idle">
+                            <div class="na-agent-header">
+                                <div class="na-agent-avatar synth-avatar">🧠</div>
+                                <div class="na-agent-meta">
+                                    <span class="na-agent-name">Synthesizer</span>
+                                    <span class="na-agent-role">Branch Strategy Advisor</span>
+                                </div>
+                                <div class="na-agent-indicator" id="na-synthesizer-indicator">
+                                    <span class="na-idle-dot"></span> Waiting
+                                </div>
+                            </div>
+                            <div class="na-agent-body" id="na-synthesizer-body"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Forecast Result Card -->
+                <div class="na-forecast-card" id="na-forecast-section" style="display:none;">
+                    <p class="na-section-label">📊 Trend Forecast</p>
+                    <div class="na-forecast-grid">
+                        <div class="na-fc-cell">
+                            <span class="na-fc-label">Direction</span>
+                            <span class="na-fc-direction-val" id="na-fc-direction">—</span>
+                        </div>
+                        <div class="na-fc-cell">
+                            <span class="na-fc-label">Confidence</span>
+                            <span class="na-fc-big" id="na-fc-confidence">—</span>
+                        </div>
+                        <div class="na-fc-cell">
+                            <span class="na-fc-label">Risk Level</span>
+                            <span class="na-fc-badge" id="na-fc-risk">—</span>
+                        </div>
+                        <div class="na-fc-cell">
+                            <span class="na-fc-label">Replenishment</span>
+                            <span class="na-fc-value" id="na-fc-replenishment">—</span>
+                        </div>
+                        <div class="na-fc-cell na-fc-action-cell">
+                            <span class="na-fc-label">Recommended Action</span>
+                            <span class="na-fc-action-text" id="na-fc-action">—</span>
+                        </div>
+                        <div class="na-fc-cell">
+                            <span class="na-fc-label">Key Drivers</span>
+                            <div class="na-drivers-row" id="na-fc-drivers"></div>
+                        </div>
+                    </div>
+                    <div class="na-watchout">
+                        <span class="na-fc-label">⚠ Watch Out For</span>
+                        <ul id="na-fc-watchout"></ul>
+                    </div>
+                </div>
+
+            </div>
+            <!-- END Market Intelligence Panel -->
+
         </section>
 
         <!-- SCENARIO TAB -->
@@ -344,7 +590,7 @@
                 </div>
             </div>
 
-            <div class="scenario-controls glass-card">
+            <div class="scenario-controls card">
                 <div class="scenario-grid">
                     <div class="control-group">
                         <label for="scenario-growth">Growth Adjustment</label>
@@ -364,10 +610,10 @@
                     <div class="control-group">
                         <label for="scenario-horizon">Forecast Horizon</label>
                         <select id="scenario-horizon" class="select-input select-sm">
-                            <option value="2">2 weeks</option>
-                            <option value="4" selected>4 weeks</option>
-                            <option value="6">6 weeks</option>
-                            <option value="8">8 weeks</option>
+                            <option value="2">2 periods</option>
+                            <option value="4" selected>4 periods</option>
+                            <option value="6">6 periods</option>
+                            <option value="8">8 periods</option>
                         </select>
                     </div>
                     <div class="control-group">
@@ -377,18 +623,23 @@
                     </div>
                 </div>
                 <button class="btn btn-primary btn-wide" id="btn-scenario">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                        <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
                     </svg>
                     Compare Scenarios
                 </button>
             </div>
 
-            <div class="chart-container glass-card" id="scenario-chart-container">
+            <div class="chart-container card">
                 <div class="chart-placeholder" id="scenario-placeholder">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
-                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
                     </svg>
                     <p>Adjust the parameters above and click <strong>Compare Scenarios</strong></p>
                 </div>
@@ -399,35 +650,395 @@
                 <div class="comparison-cards" id="comparison-cards"></div>
             </div>
 
-            <div class="explanation-card glass-card" id="scenario-explanation" style="display:none;">
+            <div class="explanation-card card" id="scenario-explanation" style="display:none;">
                 <div class="explanation-header">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    <span>AI Comparison</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
+                    </svg>
+                    <span>AI Analysis</span>
                 </div>
                 <p class="explanation-text" id="scenario-explanation-text"></p>
             </div>
         </section>
     </main>
 
+    <!-- Architecture Modal -->
+    <div class="modal-overlay arch-modal-overlay" id="architecture-modal" style="display:none;">
+        <div class="modal arch-modal card">
+            <div class="modal-header">
+                <div class="arch-modal-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    <h3>Multi-Agent Architecture</h3>
+                </div>
+                <button class="btn-close" id="btn-arch-close" aria-label="Close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="arch-modal-body">
+                <p class="arch-description">When an anomaly is detected, three specialised AI agents debate in real-time using live news data to produce an actionable trend forecast.</p>
+
+                <!-- ── Tab buttons ── -->
+                <div class="arch-tabs">
+                    <button class="arch-tab arch-tab-active" data-arch-tab="workflow">⚡ Workflow Animation</button>
+                    <button class="arch-tab" data-arch-tab="hld">🗺 High-Level Design</button>
+                </div>
+
+                <!-- ── TAB: Animated Workflow ── -->
+                <div class="arch-tab-panel arch-tab-panel-active" id="arch-panel-workflow">
+                    <div class="arch-flow">
+                        <div class="arch-step" id="arch-s1">
+                            <div class="arch-step-icon arch-icon-anomaly">⚠️</div>
+                            <div class="arch-step-content">
+                                <span class="arch-step-title">Anomaly Detected</span>
+                                <span class="arch-step-desc">Priya notices a spike</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">→</div>
+                        <div class="arch-step" id="arch-s2">
+                            <div class="arch-step-icon arch-icon-news">📡</div>
+                            <div class="arch-step-content">
+                                <span class="arch-step-title">NewsAPI Fetch</span>
+                                <span class="arch-step-desc">Last 7 days of headlines</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">→</div>
+                        <div class="arch-step" id="arch-s3">
+                            <div class="arch-step-icon arch-icon-analyst">📰</div>
+                            <div class="arch-step-content">
+                                <span class="arch-step-title">News Analyst</span>
+                                <span class="arch-step-desc">Summarises demand drivers</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">→</div>
+                        <div class="arch-step" id="arch-s4">
+                            <div class="arch-step-icon arch-icon-skeptic">🔥</div>
+                            <div class="arch-step-content">
+                                <span class="arch-step-title">Devil's Advocate</span>
+                                <span class="arch-step-desc">Challenges &amp; flags risks</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">→</div>
+                        <div class="arch-step" id="arch-s5">
+                            <div class="arch-step-icon arch-icon-synth">🧠</div>
+                            <div class="arch-step-content">
+                                <span class="arch-step-title">Synthesizer</span>
+                                <span class="arch-step-desc">Builds consensus + recommendation</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow">→</div>
+                        <div class="arch-step" id="arch-s6">
+                            <div class="arch-step-icon arch-icon-forecast">📊</div>
+                            <div class="arch-step-content">
+                                <span class="arch-step-title">Trend Forecast</span>
+                                <span class="arch-step-desc">JSON: direction, confidence, action</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tech stack legend -->
+                    <div class="arch-legend">
+                        <div class="arch-legend-item">
+                            <span class="arch-legend-dot" style="background:#60a5fa"></span>
+                            <span>NewsAPI.org — live UK headlines</span>
+                        </div>
+                        <div class="arch-legend-item">
+                            <span class="arch-legend-dot" style="background:#a78bfa"></span>
+                            <span>CrewAI — sequential agent orchestration</span>
+                        </div>
+                        <div class="arch-legend-item">
+                            <span class="arch-legend-dot" style="background:#34d399"></span>
+                            <span>Gemini 2.5 Flash — LLM powering all agents</span>
+                        </div>
+                        <div class="arch-legend-item">
+                            <span class="arch-legend-dot" style="background:#fbbf24"></span>
+                            <span>SSE Stream — real-time debate to browser</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── TAB: High-Level Design ── -->
+                <div class="arch-tab-panel" id="arch-panel-hld">
+                    <div class="hld-diagram">
+
+                        <!-- Row 1: User layer -->
+                        <div class="hld-row">
+                            <div class="hld-layer-label">User</div>
+                            <div class="hld-row-content">
+                                <div class="hld-box hld-box-user">
+                                    <span class="hld-box-icon">👩‍💼</span>
+                                    <span class="hld-box-title">Priya (Branch Manager)</span>
+                                    <span class="hld-box-sub">Clicks anomaly → triggers analysis</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hld-connector-v">↓</div>
+
+                        <!-- Row 2: Frontend -->
+                        <div class="hld-row">
+                            <div class="hld-layer-label">Frontend</div>
+                            <div class="hld-row-content hld-multi">
+                                <div class="hld-box hld-box-frontend">
+                                    <span class="hld-box-icon">🖥</span>
+                                    <span class="hld-box-title">ForecastIQ Dashboard</span>
+                                    <span class="hld-box-sub">HTML + Vanilla JS</span>
+                                </div>
+                                <div class="hld-box hld-box-frontend">
+                                    <span class="hld-box-icon">📡</span>
+                                    <span class="hld-box-title">SSE EventSource</span>
+                                    <span class="hld-box-sub">Streams agent messages live</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hld-connector-v">↓ POST /api/news-agents</div>
+
+                        <!-- Row 3: Backend -->
+                        <div class="hld-row">
+                            <div class="hld-layer-label">Backend</div>
+                            <div class="hld-row-content hld-multi">
+                                <div class="hld-box hld-box-backend">
+                                    <span class="hld-box-icon">🐍</span>
+                                    <span class="hld-box-title">Flask Route</span>
+                                    <span class="hld-box-sub">news_agents.py</span>
+                                </div>
+                                <div class="hld-box hld-box-backend">
+                                    <span class="hld-box-icon">🔧</span>
+                                    <span class="hld-box-title">News Fetcher</span>
+                                    <span class="hld-box-sub">15-min TTL cache</span>
+                                </div>
+                                <div class="hld-box hld-box-backend">
+                                    <span class="hld-box-icon">🤖</span>
+                                    <span class="hld-box-title">CrewAI Orchestrator</span>
+                                    <span class="hld-box-sub">news_agent_service.py</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hld-connector-v">↓</div>
+
+                        <!-- Row 4: AI & External -->
+                        <div class="hld-row">
+                            <div class="hld-layer-label">AI / External</div>
+                            <div class="hld-row-content hld-multi">
+                                <div class="hld-box hld-box-ai">
+                                    <span class="hld-box-icon">📰</span>
+                                    <span class="hld-box-title">NewsAPI.org</span>
+                                    <span class="hld-box-sub">Live UK headlines</span>
+                                </div>
+                                <div class="hld-box hld-box-ai hld-box-agent">
+                                    <span class="hld-box-icon">📰</span>
+                                    <span class="hld-box-title">Agent 1: Analyst</span>
+                                    <span class="hld-box-sub">Gemini 2.5 Flash</span>
+                                </div>
+                                <div class="hld-box hld-box-ai hld-box-agent">
+                                    <span class="hld-box-icon">🔥</span>
+                                    <span class="hld-box-title">Agent 2: Skeptic</span>
+                                    <span class="hld-box-sub">Gemini 2.5 Flash</span>
+                                </div>
+                                <div class="hld-box hld-box-ai hld-box-agent">
+                                    <span class="hld-box-icon">🧠</span>
+                                    <span class="hld-box-title">Agent 3: Synthesizer</span>
+                                    <span class="hld-box-sub">Gemini 2.5 Flash</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hld-connector-v">↓ JSON Forecast</div>
+
+                        <!-- Row 5: Output -->
+                        <div class="hld-row">
+                            <div class="hld-layer-label">Output</div>
+                            <div class="hld-row-content">
+                                <div class="hld-box hld-box-output">
+                                    <span class="hld-box-icon">📊</span>
+                                    <span class="hld-box-title">Trend Forecast Card</span>
+                                    <span class="hld-box-sub">Direction · Confidence · Action · Risk</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Backtest / Model Race Architecture Modal -->
+    <div class="modal-overlay arch-modal-overlay" id="backtest-arch-modal" style="display:none;">
+        <div class="modal arch-modal card">
+            <div class="modal-header">
+                <div class="arch-modal-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/>
+                        <path d="M8.5 2h7"/><path d="M7 16h10"/>
+                    </svg>
+                    <h3>Forecast &amp; Backtest Architecture</h3>
+                </div>
+                <button class="btn-close" id="btn-btarch-close" aria-label="Close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="arch-modal-body">
+                <p class="arch-description">ForecastIQ runs three statistical models in parallel and evaluates them via walk-forward backtesting to surface the best-performing approach for your data.</p>
+
+                <!-- HLD Diagram -->
+                <div class="hld-diagram">
+
+                    <div class="hld-row">
+                        <div class="hld-layer-label">Input</div>
+                        <div class="hld-row-content">
+                            <div class="hld-box hld-box-user">
+                                <span class="hld-box-icon">📂</span>
+                                <span class="hld-box-title">Dataset (CSV)</span>
+                                <span class="hld-box-sub">Date + value column</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hld-connector-v">↓ POST /api/forecast</div>
+
+                    <div class="hld-row">
+                        <div class="hld-layer-label">Backend</div>
+                        <div class="hld-row-content hld-multi">
+                            <div class="hld-box hld-box-backend">
+                                <span class="hld-box-icon">🐍</span>
+                                <span class="hld-box-title">Flask Route</span>
+                                <span class="hld-box-sub">forecast.py</span>
+                            </div>
+                            <div class="hld-box hld-box-backend">
+                                <span class="hld-box-icon">🔢</span>
+                                <span class="hld-box-title">Preprocessor</span>
+                                <span class="hld-box-sub">Resample · Impute · Scale</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hld-connector-v">↓ Parallel model fitting</div>
+
+                    <div class="hld-row">
+                        <div class="hld-layer-label">Models</div>
+                        <div class="hld-row-content hld-multi">
+                            <div class="hld-box hld-box-ai">
+                                <span class="hld-box-icon">📈</span>
+                                <span class="hld-box-title">ETS</span>
+                                <span class="hld-box-sub">Error · Trend · Season (statsmodels)</span>
+                            </div>
+                            <div class="hld-box hld-box-ai">
+                                <span class="hld-box-icon">📉</span>
+                                <span class="hld-box-title">ARIMA(1,1,1)</span>
+                                <span class="hld-box-sub">Auto-differencing (statsmodels)</span>
+                            </div>
+                            <div class="hld-box hld-box-ai">
+                                <span class="hld-box-icon">〰️</span>
+                                <span class="hld-box-title">Moving Avg</span>
+                                <span class="hld-box-sub">Rolling window baseline</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hld-connector-v">↓ Walk-forward validation</div>
+
+                    <div class="hld-row">
+                        <div class="hld-layer-label">Evaluation</div>
+                        <div class="hld-row-content hld-multi">
+                            <div class="hld-box hld-box-frontend">
+                                <span class="hld-box-icon">🎯</span>
+                                <span class="hld-box-title">MAPE</span>
+                                <span class="hld-box-sub">Mean Abs % Error</span>
+                            </div>
+                            <div class="hld-box hld-box-frontend">
+                                <span class="hld-box-icon">📏</span>
+                                <span class="hld-box-title">RMSE</span>
+                                <span class="hld-box-sub">Root Mean Sq Error</span>
+                            </div>
+                            <div class="hld-box hld-box-frontend">
+                                <span class="hld-box-icon">✅</span>
+                                <span class="hld-box-title">Hit Rate</span>
+                                <span class="hld-box-sub">Direction accuracy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hld-connector-v">↓ Best model selected · AI Analysis generated</div>
+
+                    <div class="hld-row">
+                        <div class="hld-layer-label">Output</div>
+                        <div class="hld-row-content hld-multi">
+                            <div class="hld-box hld-box-output">
+                                <span class="hld-box-icon">🏆</span>
+                                <span class="hld-box-title">Leaderboard</span>
+                                <span class="hld-box-sub">Ranked model scores</span>
+                            </div>
+                            <div class="hld-box hld-box-output">
+                                <span class="hld-box-icon">🔮</span>
+                                <span class="hld-box-title">Forecast Chart</span>
+                                <span class="hld-box-sub">Confidence bands · horizon</span>
+                            </div>
+                            <div class="hld-box hld-box-output">
+                                <span class="hld-box-icon">✨</span>
+                                <span class="hld-box-title">Gemini Narrative</span>
+                                <span class="hld-box-sub">Plain-English AI Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Tech stack legend -->
+                <div class="arch-legend" style="margin-top: var(--space-lg);">
+                    <div class="arch-legend-item">
+                        <span class="arch-legend-dot" style="background:#a78bfa"></span>
+                        <span>statsmodels — ETS &amp; ARIMA fitting</span>
+                    </div>
+                    <div class="arch-legend-item">
+                        <span class="arch-legend-dot" style="background:#34d399"></span>
+                        <span>Gemini 2.5 Flash — AI Analysis narrative</span>
+                    </div>
+                    <div class="arch-legend-item">
+                        <span class="arch-legend-dot" style="background:#60a5fa"></span>
+                        <span>Walk-forward split — honest out-of-sample evaluation</span>
+                    </div>
+                    <div class="arch-legend-item">
+                        <span class="arch-legend-dot" style="background:#fbbf24"></span>
+                        <span>Model Race — parallel fit, best-model auto-selection</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Upload Modal -->
     <div class="modal-overlay" id="upload-modal" style="display:none;">
-        <div class="modal glass-card">
+        <div class="modal card">
             <div class="modal-header">
                 <h3>Upload Dataset</h3>
-                <button class="btn-close" id="btn-close-modal">&times;</button>
+                <button class="btn-close" id="btn-close-modal" aria-label="Close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18"/>
+                        <path d="m6 6 12 12"/>
+                    </svg>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="upload-zone" id="upload-zone">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" opacity="0.5">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
-                    <p>Drag & drop a CSV file here</p>
+                    <p>Drag &amp; drop a CSV file here</p>
                     <p class="upload-hint">or click to browse</p>
                     <input type="file" id="file-input" accept=".csv" hidden>
                 </div>
                 <div class="upload-status" id="upload-status" style="display:none;">
-                    <div class="upload-progress" id="upload-progress"></div>
+                    <div class="upload-progress"></div>
                     <p id="upload-message"></p>
                 </div>
             </div>
@@ -446,6 +1057,8 @@
     <div class="toast-container" id="toast-container"></div>
 
     <!-- Scripts -->
+    <!-- i18n / Language picker (load first so LangPicker is available) -->
+    <script src="js/i18n.js"></script>
     <script src="js/api.js"></script>
     <script src="js/charts.js"></script>
     <script src="js/extras.js"></script>
@@ -453,6 +1066,7 @@
     <script src="js/model_race.js"></script>
     <script src="js/forecast.js"></script>
     <script src="js/anomaly.js"></script>
+    <script src="js/news_agents.js"></script>
     <script src="js/scenario.js"></script>
     <script src="js/app.js"></script>
     <script>

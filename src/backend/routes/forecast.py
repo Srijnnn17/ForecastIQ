@@ -82,7 +82,8 @@ def create_forecast():
         )
 
         # AI explanation
-        explanation = explain_forecast(forecast_result, horizon)
+        language = params.get("language", "English")
+        explanation = explain_forecast(forecast_result, horizon, language)
 
         response_data = {
             "historical": {

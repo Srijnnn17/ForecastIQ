@@ -79,7 +79,7 @@ const API = {
     async generateForecast(params) {
         return this.request('/api/forecast', {
             method: 'POST',
-            body: JSON.stringify(params),
+            body: JSON.stringify({ ...params, language: LangPicker.get() }),
         });
     },
 
@@ -94,7 +94,7 @@ const API = {
     async detectAnomalies(params) {
         return this.request('/api/anomalies', {
             method: 'POST',
-            body: JSON.stringify(params),
+            body: JSON.stringify({ ...params, language: LangPicker.get() }),
         });
     },
 
@@ -106,7 +106,7 @@ const API = {
     async compareScenarios(params) {
         return this.request('/api/scenarios', {
             method: 'POST',
-            body: JSON.stringify(params),
+            body: JSON.stringify({ ...params, language: LangPicker.get() }),
         });
     },
 

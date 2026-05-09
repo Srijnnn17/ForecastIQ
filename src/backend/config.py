@@ -8,8 +8,11 @@ for all application components.
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env file if it exists
-load_dotenv()
+# Resolve .env relative to this file (src/backend/config.py → ../../.env)
+_ENV_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", ".env")
+)
+load_dotenv(_ENV_PATH, override=True)
 
 
 class Config:
@@ -35,7 +38,7 @@ class Config:
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
     # Forecasting defaults
-    DEFAULT_FORECAST_HORIZON = 4  # weeks
+    DEFAULT_FORECAST_HORIZON = 4  # periods
     MAX_FORECAST_HORIZON = 12
     CONFIDENCE_LEVEL = 0.95  # 95% confidence intervals
 
@@ -48,5 +51,10 @@ class Config:
         if not cls.GEMINI_API_KEY:
             print(
                 "WARNING: GEMINI_API_KEY not set. "
-                "AI explanations will use fallback mode."
+                "AI explanations will use fallback mode.\n"
+                f"  .env loaded from: {_ENV_PATH}\n"
+                f"  File exists: {os.path.exists(_ENV_PATH)}"
             )
+        else:
+            key = cls.GEMINI_API_KEY
+            print(f"✓ GEMINI_API_KEY loaded: {key[:8]}…{key[-4:]}")

@@ -61,7 +61,7 @@ def compare_models(
             "upper_bound": ets_full["upper_bound"],
             "mape": eval_mape if eval_mape is not None else ets_full["model_summary"]["mape"],
             "rmse": ets_full["model_summary"]["rmse"],
-            "description": "Handles trend + seasonality; adapts to recent changes",
+            "description": "Adapts exponentially to trend & seasonality; sensitive to recent spikes",
         }
     except Exception:
         pass
@@ -78,7 +78,7 @@ def compare_models(
                 "upper_bound": arima_result["upper_bound"],
                 "mape": eval_mape if eval_mape is not None else arima_result["mape"],
                 "rmse": arima_result["rmse"],
-                "description": "Differencing + autoregression; good for stationary data",
+                "description": "Auto-differences to remove trend; robust to non-stationary series",
             }
     except Exception:
         pass
@@ -99,7 +99,7 @@ def compare_models(
             "upper_bound": [round(ma_val + z * std, 2)] * horizon,
             "mape": round(ma_mape, 2),
             "rmse": round(float(np.sqrt(np.mean((series - ma_val) ** 2))), 2),
-            "description": "Simple baseline — average of last N observations",
+            "description": "Stable baseline — smoothed mean of last N periods; low variance",
         }
     except Exception:
         pass

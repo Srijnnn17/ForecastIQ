@@ -35,6 +35,9 @@ const BacktestModule = {
         const section = document.getElementById('backtest-section');
         section.style.display = 'block';
 
+        const placeholder = document.getElementById('backtest-placeholder');
+        if (placeholder) placeholder.style.display = 'none';
+
         // Metrics
         const m = data.metrics;
         document.getElementById('bt-mape').textContent   = `${m.mape}%`;
